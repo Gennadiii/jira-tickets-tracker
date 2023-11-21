@@ -45,6 +45,17 @@ describe("exit", () => {
     expect(processExitMock).toBeCalledWith(1);
   });
 
+  it("handles last slash in jira link", async () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    global.fetch = jest.fn(() => ({
+      status: 200, json: () =>
+        ({fields: {status: {name: 'statusName1'}}, key: 'key'})
+    }));
+    await index.checkJiraStatuses({...defaultParams, jiraAddress: 'https://myProject.atlassian.net/'});
+    expect(processExitMock).toBeCalledWith(1);
+  });
+
   it("exits with 1 if tickets with errors found", async () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore

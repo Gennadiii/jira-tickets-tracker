@@ -9,7 +9,8 @@ export async function checkJiraStatuses({
                                           behaviorConfig
                                         }: checkJiraStatusesInterface): Promise<void> {
   let shouldFail = false;
-  const issuePrefix = `${jiraAddress}/browse/`;
+  const cleanJiraAddress = jiraAddress.replace(/\/$/, '');
+  const issuePrefix = `${cleanJiraAddress}/browse/`;
   let hardcodedIssueKeys = hardcodedKeysSearcherUtil.find({jiraPrefix: issuePrefix, dirPathWithJiraLinks});
   console.info(`Found ${hardcodedIssueKeys.length} tickets`);
   let newHardcodedKeys = [];
@@ -19,7 +20,12 @@ export async function checkJiraStatuses({
     const linksWithError: string[] = [];
     for (const hardcodedIssueKey of hardcodedIssueKeys) {
       const issueLinkFromRequest = issuePrefix + hardcodedIssueKey;
-      const jiraIssue = await apiUtil.getIssue({jiraAddress, jiraUserEmail, jiraUserToken, key: hardcodedIssueKey});
+      const jiraIssue = await apiUtil.getIssue({
+        jiraAddress: cleanJiraAddress,
+        jiraUserEmail,
+        jiraUserToken,
+        key: hardcodedIssueKey
+      });
       const {json, statusCode, statusName, actualKey} = jiraIssue;
       switch (statusCode) {
         case 404:
