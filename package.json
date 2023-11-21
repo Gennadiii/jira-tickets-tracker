@@ -26,7 +26,9 @@
     "jira"
   ],
   "files": [
-    "dist/**/*"
+    "dist/src/**/*",
+    "dist/index.d.ts",
+    "dist/index.ts"
   ],
   "devDependencies": {
     "@types/node": "20.9.2",
