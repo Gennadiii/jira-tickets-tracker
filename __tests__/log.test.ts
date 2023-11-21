@@ -91,7 +91,7 @@ describe("exit", () => {
           message: 'message2', statusNames: ['statusName3']
         }]
     });
-    expect(logInfoMock).toBeCalledTimes(6);
+    expect(logInfoMock).toBeCalledTimes(7);
     expect(logInfoMock).toHaveBeenNthCalledWith(2, 'message - statuses: statusName1, statusName2');
     expect(logInfoMock).toHaveBeenNthCalledWith(3, `Please check these issues manually. I failed to access them: (1)
 1 >>> https://myProject.atlassian.net/browse/MP-18
@@ -113,11 +113,8 @@ describe("exit", () => {
       status: 200, json: () =>
         ({fields: {status: {name: 'statusName1'}}, key: 'anotherKey'})
     }));
-    await index.checkJiraStatuses({
-      ...defaultParams,
-      dirPathWithJiraLinks: `${process.cwd()}/__tests__/testData/nestedData`,
-    });
-    expect(logInfoMock).toBeCalledTimes(3);
+    await index.checkJiraStatuses(defaultParams);
+    expect(logInfoMock).toBeCalledTimes(4);
     expect(logInfoMock).toHaveBeenNthCalledWith(2, 'message - statuses: statusName1, statusName2');
     expect(logInfoMock).toHaveBeenNthCalledWith(3, `Found tickets by statuses: (1)
 1 >>> https://myProject.atlassian.net/browse/MP-42 > https://myProject.atlassian.net/browse/anotherKey
@@ -131,12 +128,42 @@ describe("exit", () => {
       status: 200, json: () =>
         ({fields: {status: {name: 'anotherStatus'}}, key: 'anotherKey'})
     }));
-    await index.checkJiraStatuses({
-      ...defaultParams,
-      dirPathWithJiraLinks: `${process.cwd()}/__tests__/testData/nestedData`,
-    });
-    expect(logInfoMock).toBeCalledTimes(2);
+    await index.checkJiraStatuses(defaultParams);
+    expect(logInfoMock).toBeCalledTimes(3);
     expect(logInfoMock).toHaveBeenNthCalledWith(1, 'Found 1 tickets');
     expect(logInfoMock).toHaveBeenNthCalledWith(2, 'Just another typical day, nothing is found');
+  });
+
+  it("logs all statuses", async () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const fetchMock = global.fetch = jest.fn();
+    fetchMock.mockImplementationOnce(() => ({
+      status: 200, json: () =>
+        ({fields: {status: {name: 'status1'}}, key: 'anotherKey'})
+    }));
+    fetchMock.mockImplementationOnce(() => ({
+      status: 200, json: () =>
+        ({fields: {status: {name: 'status2'}}, key: 'anotherKey'})
+    }));
+    fetchMock.mockImplementationOnce(() => ({
+      status: 200, json: () =>
+        ({fields: {status: {name: 'status1'}}, key: 'anotherKey'})
+    }));
+    fetchMock.mockImplementationOnce(() => ({
+      status: 200, json: () =>
+        ({fields: {status: {name: 'status1'}}, key: 'anotherKey'})
+    }));
+    await index.checkJiraStatuses({
+      ...defaultParams,
+      dirPathWithJiraLinks: `${process.cwd()}/__tests__/testData`,
+    });
+    expect(logInfoMock).toBeCalledTimes(3);
+    expect(logInfoMock).toHaveBeenNthCalledWith(1, 'Found 4 tickets');
+    expect(logInfoMock).toHaveBeenNthCalledWith(2, 'Just another typical day, nothing is found');
+
+    expect(logInfoMock).toHaveBeenNthCalledWith(3, `All found statuses:
+status1: 3
+status2: 1`);
   });
 });

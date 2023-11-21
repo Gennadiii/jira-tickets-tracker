@@ -11,6 +11,7 @@ export async function checkJiraStatuses({
   let shouldFail = false;
   const cleanJiraAddress = jiraAddress.replace(/\/$/, '');
   const issuePrefix = `${cleanJiraAddress}/browse/`;
+  const statusesCounter: { [key: string]: number } = {};
   let hardcodedIssueKeys = hardcodedKeysSearcherUtil.find({jiraPrefix: issuePrefix, dirPathWithJiraLinks});
   console.info(`Found ${hardcodedIssueKeys.length} tickets`);
   let newHardcodedKeys = [];
@@ -37,6 +38,11 @@ export async function checkJiraStatuses({
             console.error(
               `Different data structure for ticket ${issueLinkFromRequest}: ${JSON.stringify(json, null, 4)}`);
             break;
+          }
+          if (statusesCounter[statusName]) {
+            statusesCounter[statusName]++;
+          } else {
+            statusesCounter[statusName] = 1;
           }
           if (statusNames.includes(statusName)) {
             const issueLinkFromResponse = issuePrefix + actualKey;
@@ -65,5 +71,6 @@ export async function checkJiraStatuses({
     newHardcodedKeys = [];
   }
   shouldFail || console.info("Just another typical day, nothing is found");
+  logUtil.logAllStatusesByStatusesCounter(statusesCounter);
   process.exit(shouldFail ? 1 : 0);
 }
