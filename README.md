@@ -43,18 +43,18 @@ void async function main() {
 
 - 1.0.0 - Initial release
 
-##Contributing
+## Contributing
   
   - Create a personal fork of the project on Github.
   - Clone the fork on your local machine. Your remote repo on Github is called `origin`.
   - Add the original repository as a remote called `upstream`.
   ```
-  git remote add upstream https://github.com/Gennadiii/tests-selector
+  git remote add upstream https://github.com/Gennadiii/jira-tickets-tracker
   git remote -v
-  origin  https://github.com/username/tests-selector.git (fetch)
-  origin  https://github.com/username/tests-selector.git (push)
-  upstream        https://github.com/Gennadiii/tests-selector (fetch)
-  upstream        https://github.com/Gennadiii/tests-selector (push)
+  origin  https://github.com/username/jira-tickets-tracker.git (fetch)
+  origin  https://github.com/username/jira-tickets-tracker.git (push)
+  upstream        https://github.com/Gennadiii/jira-tickets-tracker (fetch)
+  upstream        https://github.com/Gennadiii/jira-tickets-tracker (push)
   ```
   - If you created your fork a while ago be sure to pull upstream changes into your local repository.
   ```git merge upstream/develop```
