@@ -3,6 +3,12 @@
 0 dependencies 100% unit tested simple tool that helps teams not to forget about jira tickets transferring to certain statuses.
 
 `jira-tickets-tracker` will parse your code and search for jira links in it. It could be a comment or a string. Basically anything starting with https:// and ending with a space like: https://myProject.atlassian.net/browse/MP-42
+Note: if you want to mention ticket but don't want to track it just remove the protocol or leave just the key like ```myProject.atlassian.net/browse/MP-42``` or ```MP-42```
+
+It will then check status for every unique found ticket and if the status of the ticket matches the status you want to track it will log the result mentioning the tickets with expected status and exit process with 1.
+
+Flow example:
+I'm writing auto tests. Auto test finds a bug and I disable that test until the bug is fixed and I leave a comment with the bug ticket in the code near the test. Then the bug gets fixed and I miss jira notification. But I have a nightly CI job instead that became red notifying that my ticket is in Done status. The job will remain red until I enable my test back and remove the comment with the ticket.
 
 ![npm downloads](https://img.shields.io/npm/dm/jira-tickets-tracker.svg?style=flat-square)
 
@@ -44,6 +50,7 @@ void async function main() {
 - 1.0.0 - Initial release
 - 1.1.0 - Fixed issue of last slash in jira link
 - 1.2.0 - all statuses logging
+- 1.2.1 - improved readme
 
 ## Contributing
   
