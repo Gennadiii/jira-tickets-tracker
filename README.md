@@ -28,6 +28,8 @@ void async function main() {
     await checkJiraStatuses({
       jiraUserEmail: 'jiraUserEmail',
       jiraUserToken: 'jiraUserToken',
+      // to get the token for your user follow this documentation: 
+      // https://support.atlassian.com/atlassian-account/docs/manage-api-tokens-for-your-atlassian-account/
       jiraAddress: 'https://myProject.atlassian.net',
       // make sure it starts with "https://" just copy the link from a browser
       dirPathWithJiraLinks: `${process.cwd()}/specs`,
