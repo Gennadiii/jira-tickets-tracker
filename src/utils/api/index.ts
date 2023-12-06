@@ -9,7 +9,7 @@ export const apiUtil = {
       "Content-Type": "application/json",
       "Authorization": `Basic ${encodedCredentials}`,
     };
-    const response = await fetch(`${jiraAddress}/rest/api/latest/issue/${key}?fields=status`, {
+    const response = await fetch(`${jiraAddress}/rest/api/latest/issue/${key}?fields=status,summary`, {
       method: "GET",
       headers: headers,
     });
@@ -18,6 +18,7 @@ export const apiUtil = {
       statusName: json.fields?.status?.name,
       statusCode: response.status,
       actualKey: json.key,
+      summary: json.fields?.summary,
       json,
     };
   }
@@ -34,5 +35,6 @@ interface issueInterface {
   statusCode: number;
   statusName: string;
   actualKey: string;
+  summary: string;
   json: Record<string, unknown>;
 }

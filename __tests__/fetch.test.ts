@@ -33,7 +33,7 @@ describe("fetch", () => {
   it("calls fetch with provided parameters", async () => {
     await index.checkJiraStatuses(defaultParams);
     expect(fetchMock).toBeCalledTimes(1);
-    expect(fetchMock).toBeCalledWith("https://myProject.atlassian.net/rest/api/latest/issue/MP-42?fields=status", {
+    expect(fetchMock).toBeCalledWith("https://myProject.atlassian.net/rest/api/latest/issue/MP-42?fields=status,summary", {
       headers: {
         Authorization: "Basic amlyYVVzZXJFbWFpbDpqaXJhVXNlclRva2Vu",
         "Content-Type": "application/json"

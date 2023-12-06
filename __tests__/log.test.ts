@@ -29,7 +29,7 @@ describe("exit", () => {
     // @ts-ignore
     global.fetch = jest.fn(() => ({
       status: 404, json: () =>
-        ({fields: {status: {name: 'name'}}, key: 'key'})
+        ({fields: {summary: 'summary', status: {name: 'name'}}, key: 'key'})
     }));
     await index.checkJiraStatuses(defaultParams);
     expect(logErrorMock).toBeCalledWith("ticket not found: https://myProject.atlassian.net/browse/MP-42");
@@ -66,19 +66,19 @@ describe("exit", () => {
     // @ts-ignore
     global.fetch = jest.fn().mockImplementationOnce(() => ({
       status: 500, json: () =>
-        ({fields: {status: {name: 'name'}}, key: 'key'})
+        ({fields: {summary: 'name', status: {name: 'name'}}, key: 'key'})
     })).mockImplementationOnce(() => ({
       status: 200, json: () =>
-        ({fields: {status: {name: 'statusName1'}}, key: 'MP-7'})
+        ({fields: {summary: 'statusName1', status: {name: 'statusName1'}}, key: 'MP-7'})
     })).mockImplementationOnce(() => ({
       status: 200, json: () =>
-        ({fields: {status: {name: 'statusName2'}}, key: 'MP-15'})
+        ({fields: {summary: 'statusName2', status: {name: 'statusName2'}}, key: 'MP-15'})
     })).mockImplementationOnce(() => ({
       status: 200, json: () =>
-        ({fields: {status: {name: 'name'}}, key: 'key'})
+        ({fields: {summary: 'name', status: {name: 'name'}}, key: 'key'})
     })).mockImplementationOnce(() => ({
       status: 200, json: () =>
-        ({fields: {status: {name: 'statusName3'}}, key: 'MP-42'})
+        ({fields: {summary: 'statusName3', status: {name: 'statusName3'}}, key: 'MP-42'})
     }));
     await index.checkJiraStatuses({
       ...defaultParams,
@@ -98,11 +98,14 @@ describe("exit", () => {
 `);
     expect(logInfoMock).toHaveBeenNthCalledWith(4, `Found tickets by statuses: (2)
 1 >>> https://myProject.atlassian.net/browse/MP-7
+\tstatusName1
 2 >>> https://myProject.atlassian.net/browse/MP-15
+\tstatusName2
 `);
     expect(logInfoMock).toHaveBeenNthCalledWith(5, 'message2 - statuses: statusName3');
     expect(logInfoMock).toHaveBeenNthCalledWith(6, `Found tickets by statuses: (1)
 1 >>> https://myProject.atlassian.net/browse/MP-42
+\tstatusName3
 `);
   });
 
@@ -111,13 +114,14 @@ describe("exit", () => {
     // @ts-ignore
     global.fetch = jest.fn().mockImplementationOnce(() => ({
       status: 200, json: () =>
-        ({fields: {status: {name: 'statusName1'}}, key: 'anotherKey'})
+        ({fields: {summary: 'statusName1', status: {name: 'statusName1'}}, key: 'anotherKey'})
     }));
     await index.checkJiraStatuses(defaultParams);
     expect(logInfoMock).toBeCalledTimes(4);
     expect(logInfoMock).toHaveBeenNthCalledWith(2, 'message - statuses: statusName1, statusName2');
     expect(logInfoMock).toHaveBeenNthCalledWith(3, `Found tickets by statuses: (1)
 1 >>> https://myProject.atlassian.net/browse/MP-42 > https://myProject.atlassian.net/browse/anotherKey
+\tstatusName1
 `);
   });
 

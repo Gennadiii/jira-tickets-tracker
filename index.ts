@@ -1,5 +1,6 @@
 import {hardcodedKeysSearcherUtil, apiUtil, logUtil} from "./src/utils";
 import {checkJiraStatusesInterface} from "./index.interface";
+import {issueToLogInterface} from "./src/utils/log";
 
 export async function checkJiraStatuses({
                                           jiraAddress,
@@ -17,8 +18,8 @@ export async function checkJiraStatuses({
   let newHardcodedKeys = [];
   for (const config of behaviorConfig) {
     const {statusNames, message} = config;
-    const linksWithStatus: string[] = [];
-    const linksWithError: string[] = [];
+    const linksWithStatus: issueToLogInterface[] = [];
+    const linksWithError: issueToLogInterface[] = [];
     for (const hardcodedIssueKey of hardcodedIssueKeys) {
       const issueLinkFromRequest = issuePrefix + hardcodedIssueKey;
       const jiraIssue = await apiUtil.getIssue({
@@ -27,11 +28,11 @@ export async function checkJiraStatuses({
         jiraUserToken,
         key: hardcodedIssueKey
       });
-      const {json, statusCode, statusName, actualKey} = jiraIssue;
+      const {json, statusCode, statusName, actualKey, summary} = jiraIssue;
       switch (statusCode) {
         case 404:
           console.error(`ticket not found: ${issueLinkFromRequest}`);
-          linksWithError.push(issueLinkFromRequest);
+          linksWithError.push({link: issueLinkFromRequest});
           break;
         case 200:
           if (!statusName) {
@@ -46,17 +47,16 @@ export async function checkJiraStatuses({
           }
           if (statusNames.includes(statusName)) {
             const issueLinkFromResponse = issuePrefix + actualKey;
-            linksWithStatus.push(
-              issueLinkFromRequest === issueLinkFromResponse
-                ? issueLinkFromResponse
-                : `${issueLinkFromRequest} > ${issueLinkFromResponse}`,
-            );
+            const link = issueLinkFromRequest === issueLinkFromResponse
+              ? issueLinkFromResponse
+              : `${issueLinkFromRequest} > ${issueLinkFromResponse}`;
+            linksWithStatus.push({link, summary});
           } else {
             newHardcodedKeys.push(hardcodedIssueKey);
           }
           break;
         default:
-          linksWithError.push(issueLinkFromRequest);
+          linksWithError.push({link: issueLinkFromRequest});
           console.error(
             `On request for ${issueLinkFromRequest} Jira API responded with error: ${JSON.stringify(json, null, 4)}`,
           );

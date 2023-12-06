@@ -53,6 +53,7 @@ void async function main() {
 - 1.1.0 - Fixed issue of last slash in jira link
 - 1.2.0 - all statuses logging
 - 1.2.1 - improved readme
+- 1.3.0 - Added logging of summaries
 
 ## Contributing
   

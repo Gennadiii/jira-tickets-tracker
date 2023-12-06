@@ -17,17 +17,22 @@ ${Object.entries(statusesCounter)
 function log({issues, message}: logIssuesInterface) {
   console.info(
     `${message}: (${issues.length})${issues
-      .map((issue, index) => `\n${index + 1} >>> ${issue}`)
+      .map((issue, index) => `\n${index + 1} >>> ${issue.link}${issue.summary ? `\n\t${issue.summary}` : ''}`)
       .join("")}\n`,
   );
 }
 
+export interface issueToLogInterface {
+  link: string;
+  summary?: string;
+}
+
 interface logFoundIssuesInterface {
-  ticketsWithError: string[];
-  ticketsWithStatus: string[];
+  ticketsWithError: issueToLogInterface[];
+  ticketsWithStatus: issueToLogInterface[];
 }
 
 interface logIssuesInterface {
-  issues: string[];
+  issues: issueToLogInterface[];
   message: string;
 }
