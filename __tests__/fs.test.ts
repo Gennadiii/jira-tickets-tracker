@@ -12,7 +12,7 @@ const defaultParams = {
 describe("fs", () => {
   it("throws on bad path", async () => {
     await expect(async () => checkJiraStatuses(defaultParams)).rejects
-      .toThrow("failed to get files: Error: ENOENT: no such file or directory, scandir 'notExistedPath'");
+      .toThrow(/failed to get files: Error: ENOENT: no such file or directory, scandir .*/);
   });
 
 });

@@ -1,6 +1,11 @@
 import {hardcodedKeysSearcherUtil, apiUtil, logUtil} from "./src/utils";
-import {checkJiraStatusesInterface} from "./index.interface";
+import {checkJiraStatusesInterface, getStatusInterface} from "./index.interface";
 import {issueToLogInterface} from "./src/utils/log";
+
+export async function getStatus(params: getStatusInterface): Promise<statusInterface> {
+  const {statusName, statusCode} = (await apiUtil.getIssue(params));
+  return {networkStatusCode: statusCode, ticketStatus: statusCode === 200 ? statusName : null};
+}
 
 export async function checkJiraStatuses({
                                           jiraAddress,
@@ -73,4 +78,9 @@ export async function checkJiraStatuses({
   shouldFail || console.info("Just another typical day, nothing is found");
   logUtil.logAllStatusesByStatusesCounter(statusesCounter);
   process.exit(shouldFail ? 1 : 0);
+}
+
+interface statusInterface {
+  ticketStatus: string;
+  networkStatusCode: number;
 }

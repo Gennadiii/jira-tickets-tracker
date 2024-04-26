@@ -1,10 +1,17 @@
-export interface checkJiraStatusesInterface {
+export interface checkJiraStatusesInterface extends accessInterface {
   behaviorConfig: Array<{
     statusNames: string[];
     message: string;
   }>;
+  dirPathWithJiraLinks: string;
+}
+
+interface accessInterface {
   jiraAddress: string;
   jiraUserEmail: string;
   jiraUserToken: string;
-  dirPathWithJiraLinks: string;
+}
+
+export interface getStatusInterface extends accessInterface {
+  key: string;
 }
