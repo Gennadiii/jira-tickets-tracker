@@ -46,6 +46,18 @@ void async function main() {
   }
 }();
 ```
+Additionally, you can get status for a single ticket
+```typescript
+await getStatus({
+  jiraUserEmail: 'jiraUserEmail',
+  jiraUserToken: 'jiraUserToken',
+  // to get the token for your user follow this documentation: 
+  // https://support.atlassian.com/atlassian-account/docs/manage-api-tokens-for-your-atlassian-account/
+  jiraAddress: 'https://myProject.atlassian.net',
+  // make sure it starts with "https://" just copy the link from a browser
+  key: 'JIRA42',
+}) // {networkStatusCode: 200, ticketStatus: "Closed"}
+```
 
 ## Changelog
 
@@ -54,6 +66,7 @@ void async function main() {
 - 1.2.0 - all statuses logging
 - 1.2.1 - improved readme
 - 1.3.0 - Added logging of summaries
+- 1.4.0 - Get status function
 
 ## Contributing
   
