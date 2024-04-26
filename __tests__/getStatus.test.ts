@@ -1,5 +1,5 @@
 import {describe, expect, it, beforeEach, jest} from "@jest/globals";
-import * as main from "../index";
+import * as main from "../src";
 
 const defaultParams = {
   jiraUserEmail: 'jiraUserEmail',
@@ -13,7 +13,7 @@ describe("getStatus", () => {
   beforeEach(async () => {
     jest.restoreAllMocks();
     jest.resetModules();
-    index = await import('../index');
+    index = await import('../src');
   });
 
   it("returns status if code is 200", async () => {

@@ -1,5 +1,5 @@
 import {describe, expect, it} from "@jest/globals";
-import {checkJiraStatuses} from "../index";
+import {checkJiraStatuses} from "../src";
 
 const defaultParams = {
   jiraUserEmail: 'jiraUserEmail',

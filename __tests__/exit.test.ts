@@ -1,5 +1,5 @@
 import {describe, expect, it, beforeEach, jest} from "@jest/globals";
-import * as main from "../index";
+import * as main from "../src";
 
 const defaultParams = {
   jiraUserEmail: 'jiraUserEmail',
@@ -20,7 +20,7 @@ describe("exit", () => {
     processExitMock = jest.spyOn(process, 'exit').mockImplementation(() => null);
     jest.spyOn(console, 'info').mockImplementation(() => null);
     jest.spyOn(console, 'error').mockImplementation(() => null);
-    index = await import('../index');
+    index = await import('../src');
   });
 
   it("exits with 0 if no tickets found", async () => {

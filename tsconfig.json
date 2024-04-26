@@ -8,7 +8,7 @@
     "esModuleInterop": true
   },
   "include": [
-    "index.ts",
+    "src/index.ts",
     "src",
     "__tests__"
   ],

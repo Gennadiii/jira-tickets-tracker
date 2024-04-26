@@ -67,6 +67,7 @@ await getStatus({
 - 1.2.1 - improved readme
 - 1.3.0 - Added logging of summaries
 - 1.4.0 - Get status function
+- 1.4.1 - Fixed types export
 
 ## Contributing
   

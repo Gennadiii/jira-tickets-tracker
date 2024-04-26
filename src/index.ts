@@ -1,6 +1,6 @@
-import {hardcodedKeysSearcherUtil, apiUtil, logUtil} from "./src/utils";
+import {hardcodedKeysSearcherUtil, apiUtil, logUtil} from "./utils";
 import {checkJiraStatusesInterface, getStatusInterface} from "./index.interface";
-import {issueToLogInterface} from "./src/utils/log";
+import {issueToLogInterface} from "./utils/log";
 
 export async function getStatus(params: getStatusInterface): Promise<statusInterface> {
   const {statusName, statusCode} = (await apiUtil.getIssue(params));

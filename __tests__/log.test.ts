@@ -1,5 +1,5 @@
 import {describe, expect, it, beforeEach, jest} from "@jest/globals";
-import * as main from "../index";
+import * as main from "../src";
 
 const defaultParams = {
   jiraUserEmail: 'jiraUserEmail',
@@ -21,7 +21,7 @@ describe("exit", () => {
     jest.spyOn(process, 'exit').mockImplementation(() => null);
     logInfoMock = jest.spyOn(console, 'info').mockImplementation(() => null);
     logErrorMock = jest.spyOn(console, 'error').mockImplementation(() => null);
-    index = await import('../index');
+    index = await import('../src');
   });
 
   it("404", async () => {
