@@ -1,6 +1,6 @@
 {
   "name": "jira-tickets-tracker",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "Tracks jira tickets according to their status",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",

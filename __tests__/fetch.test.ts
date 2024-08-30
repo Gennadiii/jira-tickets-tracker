@@ -9,7 +9,6 @@ const defaultParams = {
   behaviorConfig: [{message: 'message', statusNames: ['statusName', 'statusName2']}],
 };
 let fetchMock = null;
-let processExitMock = null;
 let index: typeof main = null;
 
 describe("fetch", () => {
@@ -22,9 +21,6 @@ describe("fetch", () => {
       status: 200, json: () =>
         ({fields: {status: {name: 'name'}}, key: 'key'})
     }));
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    processExitMock = jest.spyOn(process, 'exit').mockImplementation(() => null);
     jest.spyOn(console, 'info').mockImplementation(() => null);
     jest.spyOn(console, 'error').mockImplementation(() => null);
     index = await import('../src');
@@ -48,7 +44,6 @@ describe("fetch", () => {
     global.fetch = fetchMock = jest.fn(() => ({
       status: 200, json: () => ({})
     }));
-    await index.checkJiraStatuses(defaultParams);
-    expect(processExitMock).toBeCalledWith(0);
+    expect(await index.checkJiraStatuses(defaultParams)).toEqual({parsedKeys: []});
   });
 });

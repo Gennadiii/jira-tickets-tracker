@@ -13,7 +13,7 @@ export async function checkJiraStatuses({
                                           jiraUserToken,
                                           dirPathWithJiraLinks,
                                           behaviorConfig
-                                        }: checkJiraStatusesInterface): Promise<void> {
+                                        }: checkJiraStatusesInterface): Promise<resultInterface> {
   let shouldFail = false;
   const cleanJiraAddress = jiraAddress.replace(/\/$/, '');
   const issuePrefix = `${cleanJiraAddress}/browse/`;
@@ -77,10 +77,16 @@ export async function checkJiraStatuses({
   }
   shouldFail || console.info("Just another typical day, nothing is found");
   logUtil.logAllStatusesByStatusesCounter(statusesCounter);
-  process.exit(shouldFail ? 1 : 0);
+  return shouldFail
+    ? process.exit(1)
+    : {parsedKeys: hardcodedIssueKeys};
 }
 
 interface statusInterface {
   ticketStatus: string;
   networkStatusCode: number;
+}
+
+interface resultInterface {
+  parsedKeys: string[];
 }

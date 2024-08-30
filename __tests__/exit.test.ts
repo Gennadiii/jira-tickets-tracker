@@ -23,15 +23,14 @@ describe("exit", () => {
     index = await import('../src');
   });
 
-  it("exits with 0 if no tickets found", async () => {
+  it("returns hardcoded tickets if no jira tickets found", async () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     global.fetch = jest.fn(() => ({
       status: 200, json: () =>
         ({fields: {status: {name: 'name'}}, key: 'key'})
     }));
-    await index.checkJiraStatuses(defaultParams);
-    expect(processExitMock).toBeCalledWith(0);
+    expect(await index.checkJiraStatuses(defaultParams)).toEqual({parsedKeys: ["MP-42"]});
   });
 
   it("exits with 1 if tickets with statuses found", async () => {

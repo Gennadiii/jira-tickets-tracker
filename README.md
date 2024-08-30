@@ -25,7 +25,7 @@ The code provided below will log found issues and exit the process with "1". If 
 ```typescript
 void async function main() {
   try {
-    await checkJiraStatuses({
+    const {parsedKeys} = await checkJiraStatuses({
       jiraUserEmail: 'jiraUserEmail',
       jiraUserToken: 'jiraUserToken',
       // to get the token for your user follow this documentation: 
@@ -35,11 +35,11 @@ void async function main() {
       dirPathWithJiraLinks: `${process.cwd()}/specs`,
       // it will search every file inside "specs" directory
       behaviorConfig: [{
-          message: 'Please update tests, containing resolved issues', 
-          // message to be logged when tickets found
-          statusNames: ['Done', 'Complete', 'Closed'],
-          // statuses to track. Just write them the same way they are written on the button of Jira UI
-        }],
+        message: 'Please update tests, containing resolved issues',
+        // message to be logged when tickets found
+        statusNames: ['Done', 'Complete', 'Closed'],
+        // statuses to track. Just write them the same way they are written on the button of Jira UI
+      }],
     })
   } catch (e) {
     console.log(e);
@@ -68,6 +68,7 @@ await getStatus({
 - 1.3.0 - Added logging of summaries
 - 1.4.0 - Get status function
 - 1.4.1 - Fixed types export
+- 1.5.0 - Returns hardcoded keys
 
 ## Contributing
   
