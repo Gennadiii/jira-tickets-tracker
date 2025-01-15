@@ -133,9 +133,9 @@ describe("exit", () => {
       jiraAddress: 'https://myProject.atlassian.net'
     });
     expect(logInfoMock).toBeCalledTimes(4);
-    expect(logInfoMock).toHaveBeenNthCalledWith(1, "https://myProject.atlassian.net/browse/MP-18 --- 1");
-    expect(logInfoMock).toHaveBeenNthCalledWith(2, "https://myProject.atlassian.net/browse/MP-7 --- 1");
-    expect(logInfoMock).toHaveBeenNthCalledWith(3, 'https://myProject.atlassian.net/browse/MP-15 --- 2');
+    expect(logInfoMock).toHaveBeenNthCalledWith(1, "https://myProject.atlassian.net/browse/MP-15 --- 2");
+    expect(logInfoMock).toHaveBeenNthCalledWith(2, "https://myProject.atlassian.net/browse/MP-18 --- 1");
+    expect(logInfoMock).toHaveBeenNthCalledWith(3, "https://myProject.atlassian.net/browse/MP-7 --- 1");
     expect(logInfoMock).toHaveBeenNthCalledWith(4, 'https://myProject.atlassian.net/browse/MP-42 --- 1');
   });
 
