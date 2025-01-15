@@ -69,6 +69,7 @@ await getStatus({
 - 1.4.0 - Get status function
 - 1.4.1 - Fixed types export
 - 1.5.0 - Returns hardcoded keys
+- 1.6.0 - Added function to log all issues with counters
 
 ## Contributing
   

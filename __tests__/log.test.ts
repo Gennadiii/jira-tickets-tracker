@@ -109,6 +109,36 @@ describe("exit", () => {
 `);
   });
 
+  it("count issues", async () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    global.fetch = jest.fn().mockImplementationOnce(() => ({
+      status: 500, json: () =>
+        ({fields: {summary: 'name', status: {name: 'name'}}, key: 'key'})
+    })).mockImplementationOnce(() => ({
+      status: 200, json: () =>
+        ({fields: {summary: 'statusName1', status: {name: 'statusName1'}}, key: 'MP-7'})
+    })).mockImplementationOnce(() => ({
+      status: 200, json: () =>
+        ({fields: {summary: 'statusName2', status: {name: 'statusName2'}}, key: 'MP-15'})
+    })).mockImplementationOnce(() => ({
+      status: 200, json: () =>
+        ({fields: {summary: 'name', status: {name: 'name'}}, key: 'key'})
+    })).mockImplementationOnce(() => ({
+      status: 200, json: () =>
+        ({fields: {summary: 'statusName3', status: {name: 'statusName3'}}, key: 'MP-42'})
+    }));
+    index.logIssues({
+      dirPathWithJiraLinks: `${process.cwd()}/__tests__/testData`,
+      jiraAddress: 'https://myProject.atlassian.net'
+    });
+    expect(logInfoMock).toBeCalledTimes(4);
+    expect(logInfoMock).toHaveBeenNthCalledWith(1, "https://myProject.atlassian.net/browse/MP-18 --- 1");
+    expect(logInfoMock).toHaveBeenNthCalledWith(2, "https://myProject.atlassian.net/browse/MP-7 --- 1");
+    expect(logInfoMock).toHaveBeenNthCalledWith(3, 'https://myProject.atlassian.net/browse/MP-15 --- 2');
+    expect(logInfoMock).toHaveBeenNthCalledWith(4, 'https://myProject.atlassian.net/browse/MP-42 --- 1');
+  });
+
   it("ticket redirects", async () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore

@@ -1,10 +1,22 @@
 import {hardcodedKeysSearcherUtil, apiUtil, logUtil} from "./utils";
-import {checkJiraStatusesInterface, getStatusInterface} from "./index.interface";
+import {
+  checkJiraStatusesInterface,
+  getStatusInterface,
+  logIssuesInterface
+} from "./index.interface";
 import {issueToLogInterface} from "./utils/log";
 
 export async function getStatus(params: getStatusInterface): Promise<statusInterface> {
   const {statusName, statusCode} = (await apiUtil.getIssue(params));
   return {networkStatusCode: statusCode, ticketStatus: statusCode === 200 ? statusName : null};
+}
+
+export function logIssues({jiraAddress, dirPathWithJiraLinks}: logIssuesInterface): void {
+  const cleanJiraAddress = jiraAddress.replace(/\/$/, '');
+  const jiraPrefix = `${cleanJiraAddress}/browse/`;
+  const issues = hardcodedKeysSearcherUtil.getKeysCount({jiraPrefix, dirPathWithJiraLinks});
+  issues.sort((a, b) => b.count - a.count);
+  issues.forEach(issue => console.info(`${issue.link} --- ${issue.count}`));
 }
 
 export async function checkJiraStatuses({

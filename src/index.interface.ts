@@ -15,3 +15,13 @@ interface accessInterface {
 export interface getStatusInterface extends accessInterface {
   key: string;
 }
+
+export interface findLinksInterface {
+  jiraPrefix: string;
+  dirPathWithJiraLinks: string;
+}
+
+export interface logIssuesInterface {
+  jiraAddress: string;
+  dirPathWithJiraLinks: string;
+}
